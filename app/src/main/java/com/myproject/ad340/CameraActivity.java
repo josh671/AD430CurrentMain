@@ -28,13 +28,13 @@ public class CameraActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.camera_activity);
         ArrayList<Camera> cameraList = new ArrayList<>();
-
         RecyclerView cameraListRecyclerView = findViewById(R.id.cameraListRecyclerView);
         CameraAdapter cameraAdapter = new CameraAdapter(cameraList);
         cameraListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         cameraListRecyclerView.setAdapter(cameraAdapter);
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+
         if(activeNetworkInfo != null && activeNetworkInfo.isAvailable() && activeNetworkInfo.isConnected()) {
             RequestQueue queue = Volley.newRequestQueue(this);
             String cameraApiURL = "https://web6.seattle.gov/Travelers/api/Map/Data?zoomId=13&type=2";

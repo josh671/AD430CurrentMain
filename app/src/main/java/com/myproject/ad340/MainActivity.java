@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button parks = findViewById(R.id.parks);
         Button music = findViewById(R.id.music);
         Button traffic = findViewById(R.id.traffic);
-        Button food = findViewById(R.id.food);
+        Button food = findViewById(R.id.map);
 
 
         cities.setOnClickListener(this);
@@ -51,8 +51,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.music:
                 Toast.makeText(this, "Music", Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.food:
-                Toast.makeText(this, "Food", Toast.LENGTH_SHORT).show();
+            case R.id.map:
+                 openMapsPage();
                 break;
             case R.id.movies:
                  openMoviesPage();
@@ -68,6 +68,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
     public void openMoviesPage(){
         Intent intent = new Intent(MainActivity.this, MoviesActivity.class);
+        startActivity(intent)  ;
+    }
+    public void openMapsPage(){
+        Intent intent = new Intent(MainActivity.this, MapActivity.class);
         startActivity(intent);
     }
 
