@@ -51,7 +51,7 @@ public class CameraAdapter extends RecyclerView.Adapter<CameraAdapter.ViewHolder
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
         Camera camera = cameraList.get(position);
-        viewHolder.getCameraDescriptionView().setText(String.valueOf(camera.getStreet()));
+        viewHolder.getCameraDescriptionView().setText(String.valueOf(camera.getDescription()));
         Picasso .get()
                 .load(camera.getImageURL())
                 .into(viewHolder.getCameraImageView());

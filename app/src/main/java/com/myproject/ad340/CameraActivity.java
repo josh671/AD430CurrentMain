@@ -41,21 +41,35 @@ public class CameraActivity extends AppCompatActivity {
             JsonObjectRequest objectRequest = new JsonObjectRequest(Request.Method.GET, cameraApiURL, null,
                     response -> {
                         try {
-                            JSONArray featuresArray = response.getJSONArray("Features");
-                            for (int i = 0; i < featuresArray.length(); i++) {
-                                JSONObject feature = featuresArray.getJSONObject(i);
-                                JSONArray camerasArray = feature.getJSONArray("Cameras");
+                            JSONArray features = response.getJSONArray("Features");
+                            for (int i = 0; i < features.length(); i++) {
+                                JSONObject point = features.getJSONObject(i);
+                                JSONArray pointCoordinates = point.getJSONArray("PointCoordinate");
+                                Double[] coordinates = new Double[2];
+
+                                for(int k = 0; k < pointCoordinates.length(); k++){
+                                    coordinates[k] = pointCoordinates.getDouble(k);
+                                }
+
+                                JSONArray camerasArray = point.getJSONArray("Cameras");
+
                                 for (int j = 0; j < camerasArray.length(); j++) {
                                     JSONObject camera = camerasArray.getJSONObject(j);
-                                    String camDescription = camera.getString("Description");
+                                    Camera cam = new Camera();
+                                    cam.setDescription(camera.getString("Description"));
+
+
+
                                     String camImageURL = camera.getString("ImageUrl");
                                     String camType = camera.getString("Type");
                                     if (camType.equals("sdot"))
-                                        camImageURL = "https://www.seattle.gov/trafficcams/images/" + camImageURL;
+                                        cam.setImageURL( "https://www.seattle.gov/trafficcams/images/" + camImageURL);
                                     else {
-                                        camImageURL = "https://images.wsdot.wa.gov/nw/" + camImageURL;
+                                        cam.setImageURL( "https://images.wsdot.wa.gov/nw/" + camImageURL);
                                     }
-                                    cameraList.add(new Camera(camDescription, camImageURL));
+
+                                    cam.setCoordinates(coordinates);
+                                    cameraList.add(cam);
                                 }
                             }
                             cameraAdapter.notifyDataSetChanged();
