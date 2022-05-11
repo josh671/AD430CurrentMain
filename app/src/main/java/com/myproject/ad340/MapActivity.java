@@ -2,6 +2,7 @@ package com.myproject.ad340;
 
 
 import static android.content.ContentValues.TAG;
+import static android.provider.SettingsSlicesContract.KEY_LOCATION;
 
 import android.Manifest;
 import android.content.Context;
@@ -45,13 +46,14 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private Location lastKnownLocation;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private static final String Tag = "TAG_TEST";
     private FusedLocationProviderClient fusedLocationProviderClient;
-    private final LatLng defLocation = new LatLng(47.69907063241689, -122.33263951586274);
+
     public GoogleMap googleMap;
     private boolean locationPermissionGranted;
     //adding location
@@ -65,7 +67,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.map_activity);
-        //adding Latlng array
+        //adding Latlng array]
+
+
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         //instantiates map
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -84,11 +88,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
 
     private void getLocationPermission() {
-        /*
-         * Request location permission, so that we can get the location of the
-         * device. The result of the permission request is handled by a callback,
-         * onRequestPermissionsResult.
-         */
+
         if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
                 android.Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
@@ -105,12 +105,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap ) {
         this.googleMap = googleMap;
-
-
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(47.69907063241689,-122.33263951586274 ), 12));
         getLocationPermission();
         getDeviceLocation();
-
+        updateLocationUI();
         getCamData();
     }
 
@@ -140,7 +137,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                                     JSONObject camera = camerasArray.getJSONObject(j);
                                     Camera cam = new Camera();
                                     cam.setDescription(camera.getString("Description"));
-
 
 
                                     String camImageURL = camera.getString("ImageUrl");
@@ -178,7 +174,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 .position(new LatLng(lat, lng))
                 .title(cam.getDescription())
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
-
         }
     }
 
@@ -192,6 +187,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             if (grantResults.length > 0
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 locationPermissionGranted = true;
+
             }
         } else {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -199,36 +195,35 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     private void getDeviceLocation() {
-        Log.d("location3", "device location");
         /*
          * Get the best and most recent location of the device, which may be null in rare
          * cases when a location is not available.
          */
         try {
             if (locationPermissionGranted) {
-                Log.d("location", "location Permission granted");
                 Task<Location> locationResult = fusedLocationProviderClient.getLastLocation();
+                Log.d("location", String.valueOf(locationResult));
                 locationResult.addOnCompleteListener(this, new OnCompleteListener<Location>() {
                     @Override
                     public void onComplete(@NonNull Task<Location> task) {
-                        Log.d("location", "on complete");
                         if (task.isSuccessful()) {
-
                             // Set the map's camera position to the current location of the device.
+
                             lastKnownLocation = task.getResult();
-                            Log.d("location", lastKnownLocation.toString());
                             if (lastKnownLocation != null) {
-                                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
-                                        new LatLng(lastKnownLocation.getLatitude(),
-                                                lastKnownLocation.getLongitude()), 15));
-                                Log.d("location", lastKnownLocation.toString());
+                                Log.d("location", String.valueOf(lastKnownLocation));
+                                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lastKnownLocation.getLatitude(),lastKnownLocation.getLongitude() ), 12));
+                                Log.d("location", String.valueOf(defaultLocation));
+                                googleMap.addMarker(new MarkerOptions()
+                                        .position(new LatLng(lastKnownLocation.getLatitude(),lastKnownLocation.getLongitude()))
+                                        .title("current position")
+                                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
                             }
                         } else {
                             Log.d(TAG, "Current location is null. Using defaults.");
                             Log.e(TAG, "Exception: %s", task.getException());
-
                             googleMap.moveCamera(CameraUpdateFactory
-                                    .newLatLngZoom( defaultLocation , 15));
+                                    .newLatLngZoom(defaultLocation, 12));
                             googleMap.getUiSettings().setMyLocationButtonEnabled(false);
                         }
                     }
@@ -239,4 +234,23 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
     }
 
+
+    private void updateLocationUI() {
+        if (googleMap == null) {
+            return;
+        }
+        try {
+            if (locationPermissionGranted) {
+                googleMap.setMyLocationEnabled(true);
+                googleMap.getUiSettings().setMyLocationButtonEnabled(true);
+            } else {
+                googleMap.setMyLocationEnabled(false);
+                googleMap.getUiSettings().setMyLocationButtonEnabled(false);
+                lastKnownLocation = null;
+                getLocationPermission();
+            }
+        } catch (SecurityException e)  {
+            Log.e("Exception: %s", e.getMessage());
+        }
+    }
 }
