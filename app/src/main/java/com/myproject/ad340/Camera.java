@@ -13,7 +13,7 @@ public class Camera {
     public Camera(String description, String imageURL, Double[] coordinates ) {
         this.description = description;
         this.imageURL = imageURL;
-       // this.coordinates = coordinates;
+        this.coordinates = coordinates;
     }
 
     public String getDescription() {

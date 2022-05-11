@@ -2,14 +2,13 @@ package com.myproject.ad340;
 
 
 import static android.content.ContentValues.TAG;
-import static android.provider.SettingsSlicesContract.KEY_LOCATION;
 
-import android.Manifest;
+
+
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
+
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;

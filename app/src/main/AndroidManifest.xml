@@ -17,8 +17,8 @@
         android:theme="@style/Theme.AD340">
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAc18zbWebEenK2RwIwROsf-aRSIN_0lxo"
-            />
+            android:value="${MAPS_API_KEY}" />
+
         <activity
             android:name=".MovieDetailsActivity"
             android:exported="true"
