@@ -7,21 +7,22 @@
     tools:context=".MainActivity">
 
     <EditText
-        android:id="@+id/user_input"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="10dp"
+        android:id="@+id/userName"
+        android:layout_width="245dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="22dp"
+        android:layout_marginBottom="15dp"
         android:autofillHints="Enter Name"
         android:ems="10"
         android:hint="@string/hint"
         android:inputType="textPersonName"
         android:minHeight="48dp"
         android:text="@string/login_label"
-        app:layout_constraintBottom_toTopOf="@+id/cities"
+        app:layout_constraintBottom_toTopOf="@+id/email"
         app:layout_constraintEnd_toStartOf="@+id/login_btn"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -29,42 +30,45 @@
         android:id="@+id/login_btn"
         android:layout_width="100dp"
         android:layout_height="50dp"
-        android:layout_marginEnd="44dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="11dp"
         android:backgroundTint="@color/black"
         android:minWidth="90dp"
         android:text="@string/login"
         android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/email"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/user_input"
-        app:layout_constraintTop_toTopOf="@+id/user_input" />
+        app:layout_constraintTop_toTopOf="@+id/user_input"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/cities"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="9dp"
         android:layout_marginEnd="20dp"
         android:ems="10"
         android:minHeight="50dp"
         android:text="@string/cities"
         app:layout_constraintEnd_toStartOf="@+id/movies"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/user_input" />
+        app:layout_constraintTop_toBottomOf="@+id/password" />
 
     <Button
         android:id="@+id/movies"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="9dp"
         android:layout_marginEnd="30dp"
         android:ems="10"
         android:minHeight="50dp"
         android:text="@string/movies"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/cities"
-        app:layout_constraintTop_toBottomOf="@+id/login_btn" />
+        app:layout_constraintTop_toBottomOf="@+id/password" />
 
     <Button
         android:id="@+id/parks"
@@ -127,6 +131,36 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/music"
         app:layout_constraintTop_toBottomOf="@+id/traffic" />
+
+    <EditText
+        android:id="@+id/email"
+        android:layout_width="334dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="33dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="44dp"
+        android:layout_marginBottom="20dp"
+        android:text="@string/email"
+        android:inputType="textEmailAddress"
+        app:layout_constraintBottom_toTopOf="@+id/password"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/userName" />
+
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="334dp"
+        android:layout_height="51dp"
+        android:layout_marginStart="33dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="44dp"
+        android:layout_marginBottom="9dp"
+        android:text="@string/password_entry"
+        android:inputType="textPassword"
+        app:layout_constraintBottom_toTopOf="@+id/cities"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/email" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

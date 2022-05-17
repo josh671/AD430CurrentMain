@@ -11,6 +11,8 @@
     <string name="button">"button"</string>
     <string name="hint">"Enter Name"</string>
     <string name="title_activity_movies_list">Movies_List_Activity</string>
+    <string name="email">Email</string>
+    <string name="password_entry">Password</string>
 
 
 
