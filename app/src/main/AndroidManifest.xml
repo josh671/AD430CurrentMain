@@ -28,6 +28,11 @@
             android:parentActivityName=".MovieDetailsActivity"
             />
         <activity
+            android:name=".FirebaseActivity"
+            android:exported="true"
+            android:parentActivityName=".FirebaseActivity"
+            />
+        <activity
             android:name=".MoviesActivity"
             android:exported="true"
             android:parentActivityName=".MoviesActivity"

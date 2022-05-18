@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private EditText usernameField;
     private EditText emailField;
     private EditText passwordField;
-    private FirebaseAuth myAuthentication;
+    private FirebaseAuth mAuth;
 
 
     @Override
@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         logB = findViewById(R.id.login_btn);
 
         sharedPref = MainActivity.this.getPreferences(Context.MODE_PRIVATE);
-        myAuthentication = FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance();
 
         usernameField.setText(getEntry("userName"));
         emailField.setText(getEntry("email"));
@@ -162,15 +162,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         saveEntry("password", password);
 
         // 3 - firebase sign in
-        myAuthentication.signInWithEmailAndPassword(email, password)
+        mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.d("FIREBASE", "signIn:onComplete:" + task.isSuccessful());
-                        
+
                         if (task.isSuccessful()) {
                             // update profile. displayname is the value entered in UI
-                            FirebaseUser user = myAuthentication.getCurrentUser();
+                            FirebaseUser user = mAuth.getCurrentUser();
 
                             UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                                     .setDisplayName(userName)
